@@ -21,4 +21,5 @@ package() {
 	cd "${srcdir}/${pkgname%-git}"
 	install -Dm444 rfc2307bis.schema "${pkgdir}/etc/openldap/schema/rfc2307bis.schema"
 	install -Dm444 LICENSE "${pkgdir}/usr/shar/licenses/${pkgname%-git}/LICENSE"
+	install -Dm444 README.md "${pkgdir}/usr/shar/doc/${pkgname%-git}/README.md"
 }

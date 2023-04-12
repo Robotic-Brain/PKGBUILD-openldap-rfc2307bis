@@ -13,12 +13,12 @@ conflicts=("${pkgname%-git}")
 source=('git+https://github.com/jtyr/rfc2307bis.git')
 sha256sums=('SKIP')
 pkgver() {
-	cd "${srcdir}/${pkgname%-git}"
+	cd "${srcdir}/rfc2307bis"
 	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 package() {
-	cd "${srcdir}/${pkgname%-git}"
+	cd "${srcdir}/rfc2307bis"
 	install -Dm444 rfc2307bis.schema "${pkgdir}/etc/openldap/schema/rfc2307bis.schema"
 	install -Dm444 LICENSE "${pkgdir}/usr/shar/licenses/${pkgname%-git}/LICENSE"
 	install -Dm444 README.md "${pkgdir}/usr/shar/doc/${pkgname%-git}/README.md"

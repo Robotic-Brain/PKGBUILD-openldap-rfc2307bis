@@ -1,52 +1,24 @@
-# This is an example PKGBUILD file. Use this as a start to creating your own,
-# and remove these comments. For more information, see 'man PKGBUILD'.
-# NOTE: Please fill out the license field for your package! If it is unknown,
-# then please put 'unknown'.
-
-# Maintainer: Your Name <youremail@domain.com>
-pkgname=NAME
-pkgver=VERSION
+# Maintainer: Robotic-Brain <archaur@roboticbrain.de>
+pkgname=openldap-rfc2307bis-git
+pkgver=r3
 pkgrel=1
-epoch=
-pkgdesc=""
-arch=()
-url=""
-license=('GPL')
-groups=()
-depends=()
-makedepends=()
-checkdepends=()
-optdepends=()
-provides=()
-conflicts=()
-replaces=()
-backup=()
-options=()
-install=
-changelog=
-source=("$pkgname-$pkgver.tar.gz"
-        "$pkgname-$pkgver.patch")
-noextract=()
-md5sums=()
-validpgpkeys=()
-
-prepare() {
-	cd "$pkgname-$pkgver"
-	patch -p1 -i "$srcdir/$pkgname-$pkgver.patch"
-}
-
-build() {
-	cd "$pkgname-$pkgver"
-	./configure --prefix=/usr
-	make
-}
-
-check() {
-	cd "$pkgname-$pkgver"
-	make -k check
+pkgdesc="OpenLDAP schema for the official RFC2307bis draft LDAP schema."
+arch=('any')
+url="https://github.com/jtyr/rfc2307bis"
+license=('MIT')
+depends=('openldap')
+makedepends=('git')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=('git+https://github.com/jtyr/rfc2307bis.git')
+sha256sums=('SKIP')
+pkgver() {
+	cd "${srcdir}/${pkgname%-git}"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 package() {
-	cd "$pkgname-$pkgver"
-	make DESTDIR="$pkgdir/" install
+	cd "${srcdir}/${pkgname%-git}"
+	install -Dm444 rfc2307bis.schema "${pkgdir}/etc/openldap/schema/rfc2307bis.schema"
+	install -Dm444 LICENSE "${pkgdir}/usr/shar/licenses/${pkgname%-git}/LICENSE"
 }
